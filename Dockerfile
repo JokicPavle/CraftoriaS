@@ -1,11 +1,9 @@
-# Koristi zvaničnu Tomcat sliku sa Docker Hub-a
+# 1. Maven build stage
+FROM maven:3.8.5-openjdk-17-slim AS builder
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+
+# 2. Tomcat run stage
 FROM tomcat:9.0
-
-# Kopiraj .war fajl u direktorijum u Tomcat-u
-COPY target/TestRestApi.war /usr/local/tomcat/webapps/
-
-# Otvori port 8080 na kojem će aplikacija biti dostupna
-EXPOSE 8080
-
-# Pokreni Tomcat
-CMD ["catalina.sh", "run"]
+COPY --from=builder /app/target/TestRestApi.war /usr/local/tomcat/webapps/TestRestApi.war
