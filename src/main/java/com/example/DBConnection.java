@@ -11,7 +11,7 @@ public class DBConnection {
         } catch(ClassNotFoundException e) {
             throw new RuntimeException("MySQL JDBC driver nije pronadjen",e);
         }
-        String url = "jdbc:mysql://localhost:3306/testProject";
+        String url = "jdbc:mysql://host.docker.internal:3306/testProject";
         String username = "jokara";
         String password = "jokara";
 
