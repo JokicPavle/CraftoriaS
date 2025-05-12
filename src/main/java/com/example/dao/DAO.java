@@ -35,7 +35,7 @@ public class DAO {
                 user = new User();
 
                 user.setId(rs.getInt("id"));
-                user.setName(rs.getString("name"));
+                user.setName(rs.getString("username"));
                 user.setEmail(rs.getString("email"));
 
                 users.add(user);

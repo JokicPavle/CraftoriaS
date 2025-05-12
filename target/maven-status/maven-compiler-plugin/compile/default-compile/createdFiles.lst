@@ -1,6 +1,6 @@
-Main.class
 com/example/DBConnection.class
 com/example/model/User.class
-Main$HelloServlet.class
+com/example/Main$HelloServlet.class
+com/example/Main.class
 com/example/controller/Users.class
 com/example/dao/DAO.class
