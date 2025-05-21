@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Ovo bi trebalo da radi!</h2>
+<h2>Novi test</h2>
 </body>
 </html>
