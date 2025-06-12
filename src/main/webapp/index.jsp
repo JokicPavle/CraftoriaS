@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Novi test</h2>
+<h2>Test za localhost v2!</h2>
 </body>
 </html>

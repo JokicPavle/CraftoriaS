@@ -40,6 +40,7 @@ public class SearchDAO {
                 "u.email,\n" +
                 "cities.city,\n" +
                 "u.phone,\n" +
+                "u.profile_image,\n" +
                 "u.isCraftman,\n" +
                 "c.id AS craftman_id,\n" +
                 "c.description,\n" +
@@ -67,7 +68,11 @@ public class SearchDAO {
                 "    FROM comments \n" +
                 "    GROUP BY to_user_id\n" +
                 ") AS rating_avg ON rating_avg.to_user_id = u.id\n" +
-                "WHERE u.fullName LIKE ? AND cities.city LIKE ? AND c.description LIKE ? AND s.name LIKE ? AND ct.name LIKE ?";
+                "WHERE u.fullName LIKE ?\n" +
+                "  AND (cities.city LIKE ? OR cities.city IS NULL)\n" +
+                "  AND (c.description LIKE ? OR c.description IS NULL)\n" +
+                "  AND (s.name LIKE ? OR s.name IS NULL)\n" +
+                "  AND (ct.name LIKE ? OR ct.name IS NULL)";
 
         Connection connection = null;
         PreparedStatement pstm = null;
@@ -100,8 +105,9 @@ public class SearchDAO {
                     user.setFullName(rs.getString("fullName"));
                     user.setUsername(rs.getString("username"));
                     user.setEmail(rs.getString("email"));
-                    user.setCity(rs.getString("city"));
+                    user.setCityName(rs.getString("city"));
                     user.setPhone(rs.getString("phone"));
+                    user.setProfileImage(rs.getString("profile_image"));
                     user.setDescription(rs.getString("description"));
                     user.setExperience(rs.getInt("experience"));
                     user.setCraftman(rs.getBoolean("isCraftman"));

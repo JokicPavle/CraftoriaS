@@ -6,19 +6,23 @@ public class Craftman {
     private int id;
     private String description;
     private int experience;
-    private User user;
+    private int userId;
     private List<String> images;
     private List<CraftService> services;
 
     public Craftman() {}
 
-    public Craftman(int id, String description, int experience, User user, List<String> images, List<CraftService> services) {
+    public Craftman(int id, String description, int experience, int userId, List<String> images, List<CraftService> services) {
         this.id = id;
         this.description = description;
         this.experience = experience;
-        this.user = user;
+        this.userId = userId;
         this.images = images;
         this.services = services;
+    }
+    public Craftman(int id, int userId) {
+        this.id = id;
+        this.userId = userId;
     }
 
     public int getId() {
@@ -45,12 +49,12 @@ public class Craftman {
         this.experience = experience;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public List<String> getImages() {

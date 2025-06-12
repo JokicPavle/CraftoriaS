@@ -8,11 +8,12 @@ public class User {
     private String password;
     private City city;
     private String phone;
+    private String profileImage;
     private boolean isCraftman;
 
     public User() {}
 
-    public User(int id, String fullName, String username, String email, String password, City city, String phone, boolean isCraftman) {
+    public User(int id, String fullName, String username, String email, String password, City city, String phone, String profileImage, boolean isCraftman) {
         this.id = id;
         this.fullName = fullName;
         this.username = username;
@@ -20,16 +21,18 @@ public class User {
         this.password = password;
         this.city = city;
         this.phone = phone;
+        this.profileImage = profileImage;
         this.isCraftman = isCraftman;
     }
 
-    public User(String fullName, String email, String username, String password, City city, String phone,boolean isCraftman) {
+    public User(String fullName, String email, String username, String password, City city, String phone,String profileImage, boolean isCraftman) {
         this.fullName = fullName;
         this.username = username;
         this.email = email;
         this.password = password;
         this.city = city;
         this.phone = phone;
+        this.profileImage = profileImage;
         this.isCraftman = isCraftman;
     }
     public User(String fullName, String email, String password, boolean isCraftman) {
@@ -86,6 +89,14 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     public String getUsername() {

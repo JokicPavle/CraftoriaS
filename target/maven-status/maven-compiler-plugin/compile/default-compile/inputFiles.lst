@@ -1,6 +1,7 @@
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/DBConnection.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/Main.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/auth/JwtUtil.java
+/Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/auth/PasswordUtil.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/controller/Cities.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/controller/Comments.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/controller/CraftServices.java
@@ -8,6 +9,7 @@
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/controller/Craftmans.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/controller/Login.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/controller/Search.java
+/Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/controller/SignUp.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/controller/Users.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/dao/CityDAO.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/dao/CommentDAO.java
@@ -18,6 +20,8 @@
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/dao/UserDAO.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/dto/ServiceDTO.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/dto/UserDTO.java
+/Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/dto/UserWithServicesDTO.java
+/Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/filters/JwtFilter.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/model/City.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/model/Comment.java
 /Users/quantox/Desktop/Work/CraftoriaS/src/main/java/com/example/model/CraftService.java

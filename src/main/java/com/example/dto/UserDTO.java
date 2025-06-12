@@ -12,13 +12,15 @@ public class UserDTO {
         private String username;
         private String email;
         private String password;
-        private String city;
+        private String cityName;
+        private int cityId;
         private String phone;
+        private String profileImage;
         private boolean isCraftman;
         private String description;
         private int experience;
         private double avgRating;
-
+        private int craftmanId;
         private List<Comment> comments = new ArrayList<>();
         private List<ServiceDTO> services = new ArrayList<>();
         private List<String> images = new ArrayList<>();
@@ -28,15 +30,17 @@ public class UserDTO {
     public UserDTO() {}
 
 //Contructor without PASSWORD FIELD
-    public UserDTO(int id, String fullName, String username, String email, String city, String phone,
+    public UserDTO(int id, String fullName, String username, String email, int cityId,String cityName, String phone,String profileImage,
                    boolean isCraftman, String description, int experience, double avgRating,
                    List<Comment> comments, List<ServiceDTO> services, List<String> images) {
         this.id = id;
         this.fullName = fullName;
         this.username = username;
         this.email = email;
-        this.city = city;
+        this.cityId = cityId;
+        this.cityName = cityName;
         this.phone = phone;
+        this.profileImage = profileImage;
         this.isCraftman = isCraftman;
         this.description = description;
         this.experience = experience;
@@ -47,15 +51,17 @@ public class UserDTO {
     }
 //Constructor with PASSWORD FIELD
     public UserDTO(int id, String fullName, String username, String email, String password,
-                   String city, String phone, boolean isCraftman, String description, int experience,
+                   int cityId,String cityName, String phone,String profileImage, boolean isCraftman, String description, int experience,
                    double avgRating, List<Comment> comments, List<ServiceDTO> services, List<String> images) {
         this.id = id;
         this.fullName = fullName;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.city = city;
+        this.cityId = cityId;
+        this.cityName = cityName;
         this.phone = phone;
+        this.profileImage = profileImage;
         this.isCraftman = isCraftman;
         this.description = description;
         this.experience = experience;
@@ -97,12 +103,20 @@ public class UserDTO {
         this.email = email;
     }
 
-    public String getCity() {
-        return city;
+    public int getCityId() {
+        return cityId;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public String getPhone() {
@@ -111,6 +125,14 @@ public class UserDTO {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     public boolean isCraftman() {
@@ -151,6 +173,14 @@ public class UserDTO {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public int getCraftmanId() {
+        return craftmanId;
+    }
+
+    public void setCraftmanId(int craftmanId) {
+        this.craftmanId = craftmanId;
     }
 
     public List<ServiceDTO> getServices() {

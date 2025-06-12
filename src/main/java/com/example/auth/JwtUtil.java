@@ -11,7 +11,7 @@ import java.util.Date;
 public class JwtUtil {
     private static final Dotenv dotenv = Dotenv.load();
     private static final String JWT_SECRET_KEY = dotenv.get("JWT_SECRET_KEY");
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24; //24 expiration time for token!
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 12; // expiration time for token!
 
     private static final Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET_KEY);
 

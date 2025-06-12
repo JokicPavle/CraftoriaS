@@ -1,6 +1,7 @@
 com/example/DBConnection.class
 com/example/controller/Comments.class
 com/example/model/Comment.class
+com/example/controller/SignUp.class
 com/example/model/Craftman.class
 com/example/dao/CommentDAO.class
 com/example/dao/SearchDAO.class
@@ -19,10 +20,13 @@ com/example/controller/Search.class
 com/example/Main$HelloServlet.class
 com/example/Main.class
 com/example/controller/Users.class
+com/example/dto/UserWithServicesDTO.class
+com/example/filters/JwtFilter.class
 com/example/dto/UserDTO.class
 com/example/dao/UserDAO.class
 com/example/model/User.class
 com/example/model/CraftService.class
 com/example/auth/JwtUtil.class
+com/example/auth/PasswordUtil.class
 com/example/controller/Craftmans.class
 com/example/validators/LoginValidation.class

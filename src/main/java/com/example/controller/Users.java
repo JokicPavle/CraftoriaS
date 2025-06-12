@@ -1,22 +1,24 @@
 package com.example.controller;
 
 import com.example.dao.UserDAO;
+import com.example.dto.ServiceDTO;
+import com.example.dto.UserDTO;
+import com.example.dto.UserWithServicesDTO;
 import com.example.model.User;
-import com.example.validators.LoginValidation;
 import com.google.gson.Gson;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import javax.xml.validation.Validator;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@WebServlet("/users")
+@WebServlet("/api/users")
 public class Users extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -40,7 +42,7 @@ public class Users extends HttpServlet {
         String password = req.getParameter("password");
 
         try {
-                User user = dao.getUserByEmailAndPassword(email,password);
+                User user = dao.getUserByEmail(email);
               if(user != null) {
                   int userId = user.getId();
                   out.print(gson.toJson("User sa Id-em: "+userId+ "i email:"+user.getEmail()+" je uspesno logovan!"));
@@ -60,58 +62,45 @@ public class Users extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserDAO dao = new UserDAO();
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
+
         PrintWriter out = resp.getWriter();
         Gson gson = new Gson();
         Map<String, String> errors = new HashMap<>();
-        String fullName = req.getParameter("fullName");
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-
+        UserDAO userDAO = new UserDAO();
 
 
         try {
-
-            if (fullName == null || fullName.trim().isEmpty()) {
-                errors.put("fullName", "Ime i prezime je obavezno");
-            } else if (fullName.length() > 30) {
-                errors.put("fullName", "Ime i prezime može imati najviše 30 karaktera");
-            }
-            if (email == null || email.trim().isEmpty()) {
-                errors.put("email", "Email je obavezan");
-            } else if (!LoginValidation.isValidEmail(email)) {
-                errors.put("email", "Email nije validan");
-            }
-            if (password == null || password.trim().isEmpty()) {
-                errors.put("password", "Lozinka je obavezna");
-            } else if (!LoginValidation.isValidPassword(password)) {
-                errors.put("password", "Lozinka nije validna");
+            // Učitavanje JSON tela
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = req.getReader().readLine()) != null) {
+                sb.append(line);
             }
 
-            String isCraftmanParam = req.getParameter("isCraftman");
-            if (!"true".equalsIgnoreCase(isCraftmanParam) && !"false".equalsIgnoreCase(isCraftmanParam)) {
-                errors.put("isCraftman", "Vrednost mora biti 'true' ili 'false'");
-            }
-            boolean isCraftman = Boolean.parseBoolean(isCraftmanParam);
+            String jsonInput = sb.toString();
 
+            UserWithServicesDTO input = gson.fromJson(jsonInput,UserWithServicesDTO.class);
 
-            if (!errors.isEmpty()) {
-                out.print(gson.toJson(errors));
-                return;
-            }
-            User newUser = dao.insertUser(fullName,email,password,isCraftman);
+            UserDTO userDTO = input.getUser();
+            List<ServiceDTO> selectedServices = input.getServices();
 
-            out.print(gson.toJson("Novi korisnik je uspešno dodat: " + newUser.getFullName()));
+            userDAO.updateUserProfile(userDTO,selectedServices);
 
-        } catch(Exception e) {
+            out.print(gson.toJson("Uspešno ažuriran korisnik!"));
+        } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            errors.put("error", "Greska na serveru "+e.getMessage());
+            errors.put("error", "Greška: " + e.getMessage());
             out.print(gson.toJson(errors));
         } finally {
             out.flush();
         }
     }
+
 }
 

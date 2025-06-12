@@ -1,6 +1,7 @@
 package com.example.dao;
 
 import com.example.DBConnection;
+import com.example.auth.PasswordUtil;
 import com.example.dto.ServiceDTO;
 import com.example.dto.UserDTO;
 import com.example.model.*;
@@ -16,7 +17,7 @@ public class UserDAO {
 
     private final String SELECT_ALL_USERS = "SELECT * FROM `users`";
     private final String INSERT_USER = "INSERT INTO `users` (`id`, `fullName`, `email`, `password`, `isCraftman`) VALUES (NULL, ? , ? , ? , ? )";
-    private final String SELECT_USER_BY_EMAIL_AND_PASSWORD = "SELECT * FROM `users` WHERE `email` = ? AND `password` = ?";
+    private final String SELECT_USER_BY_EMAIL = "SELECT * FROM `users` WHERE `email` = ?";
 
 
 
@@ -28,6 +29,8 @@ public class UserDAO {
         User user = null;
         try {
             connection = DBConnection.getConnection();
+
+
             pstm = connection.prepareStatement(INSERT_USER, Statement.RETURN_GENERATED_KEYS);
 
             pstm.setString(1, fullName);
@@ -67,7 +70,7 @@ public class UserDAO {
         User user = null;
         try {
             connection = DBConnection.getConnection();
-            pstm = connection.prepareStatement(SELECT_USER_BY_EMAIL_AND_PASSWORD);
+            pstm = connection.prepareStatement("");
 
 
             pstm.execute();
@@ -76,6 +79,7 @@ public class UserDAO {
 
             if(rs.next()) {
                 user = new User();
+
 
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
@@ -91,17 +95,16 @@ public class UserDAO {
 
 
 //METHOD FOR GET USER BY EMAIL AND PASSWORD
-public User getUserByEmailAndPassword( String email, String password) {
+public User getUserByEmail( String email) {
     Connection connection = null;
     PreparedStatement pstm = null;
     ResultSet rs = null;
     User user = null;
     try {
         connection = DBConnection.getConnection();
-        pstm = connection.prepareStatement(SELECT_USER_BY_EMAIL_AND_PASSWORD);
+        pstm = connection.prepareStatement(SELECT_USER_BY_EMAIL);
 
         pstm.setString(1, email);
-        pstm.setString(2, password);
 
         pstm.execute();
 
@@ -119,6 +122,65 @@ public User getUserByEmailAndPassword( String email, String password) {
         throw new RuntimeException(e);
     }
     return user;
+}
+
+
+
+
+public void updateUserProfile(UserDTO userDTO, List<ServiceDTO> services){
+        Connection connection = null;
+    PreparedStatement pstmUserUpdate = null;
+    PreparedStatement pstmCraftmanUpdate = null;
+    PreparedStatement pstmServiceUpdate = null;
+    PreparedStatement pstmDeleteService = null;
+        ResultSet rs = null;
+
+        try {
+            connection = DBConnection.getConnection();
+            connection.setAutoCommit(false);
+
+            String userUpdateSql = "UPDATE users SET fullName = ?, phone = ?, profile_image = ?, city_id = ? WHERE id = ?";
+            pstmUserUpdate =  connection.prepareStatement(userUpdateSql);
+            pstmUserUpdate.setString(1, userDTO.getFullName());
+            pstmUserUpdate.setString(2, userDTO.getPhone());
+            pstmUserUpdate.setString(3,userDTO.getProfileImage());
+            pstmUserUpdate.setInt(4,userDTO.getCityId());
+            pstmUserUpdate.setInt(5, userDTO.getId());
+            pstmUserUpdate.executeUpdate();
+
+            String craftmanUpdateSQL = "UPDATE craftman SET description = ?, experience = ? WHERE user_id = ?";
+            pstmCraftmanUpdate = connection.prepareStatement(craftmanUpdateSQL);
+            pstmCraftmanUpdate.setString(1,userDTO.getDescription());
+            pstmCraftmanUpdate.setInt(2,userDTO.getExperience());
+            pstmCraftmanUpdate.setInt(3,userDTO.getId());
+            pstmCraftmanUpdate.executeUpdate();
+
+
+            String deleteOldServicesSql = "DELETE FROM craftman_service WHERE craftman_id = ?";
+            pstmDeleteService = connection.prepareStatement(deleteOldServicesSql);
+            pstmDeleteService.setInt(1, userDTO.getCraftmanId());
+            pstmDeleteService.executeUpdate();
+
+            String craftmanServiceUpdateSQL = "INSERT INTO craftman_service (craftman_id, service_id) VALUES (? , ?)";
+            pstmServiceUpdate = connection.prepareStatement(craftmanServiceUpdateSQL);
+
+            for(ServiceDTO service : services) {
+                pstmServiceUpdate.setInt(1, userDTO.getCraftmanId());
+                pstmServiceUpdate.setInt(2,service.getId());
+                pstmServiceUpdate.addBatch();
+            }
+            pstmServiceUpdate.executeBatch();
+
+            connection.commit();
+        } catch (SQLException e) {
+            try{
+                if(connection != null) connection.rollback();
+            }
+            catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            throw new RuntimeException(e);
+        }
 }
 
 }
